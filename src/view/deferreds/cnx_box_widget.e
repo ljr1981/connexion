@@ -17,14 +17,10 @@ feature {NONE} -- Implementation
 		do
 			widget.set_border_width (3)
 			widget.set_padding (3)
-			widget.set_minimum_width (minimum_width)
 		end
 
 feature -- Access
 
 	widget: G
 
-	minimum_width: INTEGER
-		deferred
-		end
 end

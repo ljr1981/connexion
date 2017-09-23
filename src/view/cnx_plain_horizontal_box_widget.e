@@ -20,8 +20,4 @@ feature {NONE} -- Initialization
 			create widget
 		end
 
-feature {NONE} -- Implementation
-
-	minimum_width: INTEGER = 50
-
 end

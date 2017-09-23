@@ -17,29 +17,39 @@ create
 	default_create,
 	make_with_title
 
-feature {NONE} -- GUI Bits
+feature {CNX_MAIN_WINDOW, CNX_PREVIEW_ITEM} -- GUI Bits
 
-	-- ???
+	display: CNX_PREVIEW_WIDGET
 
 feature {NONE} -- Initialization
 
 	create_interface_objects
 			-- <Precursor>
 		do
+			create display
 			Precursor
 		end
 
 	initialize
 			-- <Precursor>
 		do
+				-- Extensions
+			extend (display.widget)
+
+				-- Settings
 			set_background_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
-			pointer_double_press_actions.extend (agent on_double_click)
+
 			Precursor
+
+				-- Events
+			display.widget.set_size (800, 600)
+			display.widget.pointer_double_press_actions.extend (agent on_resize)
+			display.wipe_out
 		end
 
 feature {NONE} -- Implementation
 
-	on_double_click (a_x: INTEGER_32; a_y: INTEGER_32; a_button: INTEGER_32; a_x_tilt: REAL_64; a_y_tilt: REAL_64; a_pressure: REAL_64; a_screen_x: INTEGER_32; a_screen_y: INTEGER_32)
+	on_resize (a_x: INTEGER_32; a_y: INTEGER_32; a_button: INTEGER_32; a_x_tilt: REAL_64; a_y_tilt: REAL_64; a_pressure: REAL_64; a_screen_x: INTEGER_32; a_screen_y: INTEGER_32)
 		do
 			if is_border_enabled then
 				disable_border
@@ -50,6 +60,8 @@ feature {NONE} -- Implementation
 				enable_user_resize
 				restore
 			end
+			display.widget.set_size (width, height)
+			display.refresh
 		end
 
 end
