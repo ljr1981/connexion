@@ -79,14 +79,14 @@ feature {NONE} -- Initialization
 					preview_hbox.extend (create {EV_CELL})
 			widget.extend (right_cell)
 				right_cell.extend (right_hbox)
-				if attached target_for_move_to then
-					right_hbox.extend (right_button_left_cell)
-					right_hbox.extend (right_vbox)
-					right_hbox.extend (right_button_right_cell)
-					right_vbox.extend (create {EV_CELL})
-					right_vbox.extend (move_to_preview_button)
-					right_vbox.extend (create {EV_CELL})
-				end
+--				if attached target_for_move_to then
+--					right_hbox.extend (right_button_left_cell)
+--					right_hbox.extend (right_vbox)
+--					right_hbox.extend (right_button_right_cell)
+--					right_vbox.extend (create {EV_CELL})
+--					right_vbox.extend (move_to_preview_button)
+--					right_vbox.extend (create {EV_CELL})
+--				end
 
 				-- Disables
 			widget.disable_item_expand (left_cell)

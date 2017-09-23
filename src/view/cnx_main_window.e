@@ -30,15 +30,13 @@ feature {NONE} -- GUI bits
 			song_list,
 			notes_list: CNX_ITEM_LIST
 
-		preview_box: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
-			upper_small_1,
-			upper_small_2: CNX_SMALL_PREVIEW_ITEM
-			center_regular: CNX_MEDIUM_PREVIEW_ITEM
-			lower_small_1,
-			lower_small_2: CNX_SMALL_PREVIEW_ITEM
+		prev_disp_vbox: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
 
-		display_box: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
-			display_large: CNX_LARGE_PREVIEW_ITEM
+			preview_box: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
+				center_large: CNX_LARGE_PREVIEW_ITEM
+
+			display_box: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
+				display_large: CNX_LARGE_PREVIEW_ITEM
 
 feature {NONE} -- Initialization
 
@@ -52,16 +50,12 @@ feature {NONE} -- Initialization
 					create announcement_list.make ("Announcements")
 					create song_list.make ("Songs")
 					create notes_list.make ("Notes")
+				create prev_disp_vbox
 				create preview_box
 					-- creations are below because we need the `display_large' creation first.
 				create display_box
 					create display_large
-
-					create upper_small_1
-					create upper_small_2.make_with_preview_target (display_large)
-					create center_regular.make_with_preview_target (display_large)
-					create lower_small_1.make_with_preview_target (display_large)
-					create lower_small_2
+					create center_large.make_with_preview_target (display_large)
 
 			Precursor
 		end
@@ -81,13 +75,12 @@ feature {NONE} -- Initialization
 				list_box.widget.extend (announcement_list.widget)
 				list_box.widget.extend (song_list.widget)
 				list_box.widget.extend (notes_list.widget)
-			main_box.widget.extend (preview_box.widget)
-				preview_box.widget.extend (upper_small_1.widget)
-				preview_box.widget.extend (upper_small_2.widget)
-				preview_box.widget.extend (center_regular.widget)
-				preview_box.widget.extend (lower_small_1.widget)
-				preview_box.widget.extend (lower_small_2.widget)
-			main_box.widget.extend (display_box.widget)
+
+			main_box.widget.extend (prev_disp_vbox.widget)
+
+			prev_disp_vbox.widget.extend (preview_box.widget)
+				preview_box.widget.extend (center_large.widget)
+			prev_disp_vbox.widget.extend (display_box.widget)
 				display_box.widget.extend (create {EV_CELL})
 				display_box.widget.extend (display_large.widget)
 				display_box.widget.extend (create {EV_CELL})

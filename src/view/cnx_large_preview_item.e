@@ -18,6 +18,7 @@ feature {NONE} -- Implementation
 	preview_size: TUPLE [width, height: INTEGER]
 		do
 			Result := [400, 300]
+			widget.set_minimum_size (400, 300)
 		end
 
 end

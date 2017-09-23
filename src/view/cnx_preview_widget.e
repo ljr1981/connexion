@@ -109,8 +109,8 @@ feature -- Ops
 				l_font_height := 1
 				l_font_width := 0
 			until
-				(l_font_width / a_widget.width) > 0.90 or
-				((margin * 2) + (l_list.count * (l_font_height + 3))) > a_widget.height
+				(((margin * 2) + l_font_width) / a_widget.width) > 0.95 or
+				((margin * 2) + (l_list.count * (l_font_height + 3))) / a_widget.height > 0.95
 			loop
 				l_font.set_height (l_font_height)
 				l_font_width := l_font.string_width (l_longest_string)
