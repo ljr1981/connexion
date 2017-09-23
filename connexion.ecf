@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="connexion" uuid="505D6972-E496-46AE-5ACA-000016BAA436" readonly="false">
+	<description>connexion implementation</description>
+	<target name="connexion">
+		<root class="CNX_APPLICATION" feature="make"/>
+		<option warning="true" syntax="provisional">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<capability>
+			<concurrency support="none" use="thread"/>
+			<void_safety support="transitional" use="transitional"/>
+		</capability>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="framework" location="$GITHUB\framework\framework.ecf"/>
+		<library name="json" location="$ISE_LIBRARY\contrib\library\text\parser\json\library\json.ecf"/>
+		<library name="json_ext" location="C:\Users\LJR19\Documents\GitHub\json_ext\json_ext.ecf"/>
+		<library name="test_extension" location="$GITHUB\test_extension\test_extension.ecf"/>
+		<library name="vision2" location="$ISE_LIBRARY\library\vision2\vision2.ecf"/>
+		<library name="vision2_extension" location="$ISE_LIBRARY\library\vision2_extension\vision2_extension.ecf"/>
+		<cluster name="connexion" location=".\" recursive="true">
+			<file_rule>
+				<exclude>/.git$</exclude>
+				<exclude>/.svn$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>tests</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+	<target name="test" extends="connexion">
+		<description>connexion Tests</description>
+		<root class="CNX_APPLICATION" feature="make"/>
+		<file_rule>
+			<exclude>/.git$</exclude>
+			<exclude>/.svn$</exclude>
+			<exclude>/CVS$</exclude>
+			<exclude>/EIFGENs$</exclude>
+			<include>tests</include>
+		</file_rule>
+		<option profile="false">
+		</option>
+		<setting name="console_application" value="false"/>
+		<capability>
+			<concurrency support="none"/>
+		</capability>
+		<library name="testing" location="$ISE_LIBRARY\library\testing\testing-safe.ecf"/>
+		<cluster name="tests" location=".\tests\" recursive="true"/>
+	</target>
+</system>
