@@ -60,6 +60,7 @@ feature {NONE} -- Implementation
 				enable_user_resize
 				restore
 			end
+			refresh_now
 			display.widget.set_size (width, height)
 			display.refresh
 		end

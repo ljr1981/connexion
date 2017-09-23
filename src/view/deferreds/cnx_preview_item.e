@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 			create left_vbox
 
 			create right_cell
-			create move_to_preview_button.make_with_text_and_action (">>", agent on_move_to_preview)
+			create move_to_preview_button.make_with_text_and_action (">>", agent on_move)
 			create right_vbox
 			create right_hbox
 			create right_button_left_cell
@@ -108,31 +108,23 @@ feature -- Events
 
 	on_preview_double_click (a_x: INTEGER_32; a_y: INTEGER_32; a_button: INTEGER_32; a_x_tilt: REAL_64; a_y_tilt: REAL_64; a_pressure: REAL_64; a_screen_x: INTEGER_32; a_screen_y: INTEGER_32)
 		do
-			on_move_to_preview
+			on_move
 		end
 
-	on_move_to_preview
+	on_move
 			-- Headed to the next preview item for preview
 		do
 			if attached target_for_move_to then
 				attached_target_for_move_to.preview.wipe_out
-				preview.actions.extend (agent attached_target_for_move_to.on_draw_text ("Hello World!", ?))
+
+					-- TEMP: Remove when ready to apply read text
+				preview.actions.extend (agent preview.on_draw_text ("Oh Lord my God|When I in awesome wonder|Consider all the worlds|Thy hands have made||I see the stars|I hear the rolling thunder|Thy power throughout|The universe displayed", ?))
+				preview.refresh
+
 				attached_target_for_move_to.preview.set_actions_twin (preview.actions)
 				attached_target_for_move_to.preview.refresh
-				attached_target_for_move_to.on_move_to_main_display
+				attached_target_for_move_to.on_move
 			end
-		end
-
-	on_draw_text (a_text: STRING; a_widget: like preview.widget)
-		do
-			a_widget.draw_text (50, 50, a_text)
-		end
-
-	on_move_to_main_display
-			-- Headed to the main `target_for_display' (if any).
-		local
-			l_agent: PROCEDURE [EV_PIXMAP]
-		do
 			if attached target_for_display then
 				attached_target_for_display.display.set_actions_twin (preview.actions)
 				attached_target_for_display.display.refresh
@@ -143,13 +135,13 @@ feature -- Events
 			-- What happens when "blank button" is clicked
 		do
 			preview.wipe_out
-			on_move_to_main_display
+			on_move
 		end
 
 feature -- Access
 
 	target_for_move_to: detachable CNX_PREVIEW_ITEM
-			-- Where do we move to `on_move_to_preview'?
+			-- Where do we move to `on_move'?
 
 	attached_target_for_move_to: attached like target_for_move_to
 		do
