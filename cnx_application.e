@@ -20,6 +20,7 @@ feature {NONE} -- Initialization
 			main_window.set_size (800, 600)
 
 			main_window.close_request_actions.extend (agent application.destroy)
+
 			application.post_launch_actions.extend (agent main_window.show)
 
 			application.launch
@@ -29,6 +30,6 @@ feature {NONE} -- Initialization
 
 	application: EV_APPLICATION
 
-	main_window: EV_TITLED_WINDOW
+	main_window: CNX_MAIN_WINDOW
 
 end
