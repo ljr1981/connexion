@@ -20,6 +20,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create widget
 			create actions
+			create colors
 			wipe_out
 		end
 
@@ -29,7 +30,27 @@ feature -- Access
 
 	actions: ACTION_SEQUENCE
 
+	background_color: EV_COLOR
+		attribute
+			Result := colors.dark_slate_blue
+		end
+
+	foreground_color: EV_COLOR
+		attribute
+			create Result.make_with_rgb (1.0, 1.0, 1.0)
+		end
+
 feature -- Setters
+
+	set_background_color (a_color: EV_COLOR)
+		do
+			background_color := a_color
+		end
+
+	set_foreground_color (a_color: EV_COLOR)
+		do
+			foreground_color := a_color
+		end
 
 	set_widget (a_widget: like widget)
 		do
@@ -74,8 +95,8 @@ feature -- Ops
 			l_font: EV_FONT
 		do
 			a_widget.clear
-			a_widget.set_background_color (create {EV_COLOR}.make_with_rgb (0.0, 0.0, 0.0))
-			a_widget.set_foreground_color (create {EV_COLOR}.make_with_rgb (1.0, 1.0, 1.0))
+			a_widget.set_background_color (background_color)
+			a_widget.set_foreground_color (foreground_color)
 		end
 
 	on_draw_text (a_text: STRING; a_widget: like widget)
@@ -125,6 +146,10 @@ feature -- Ops
 				l_this_top := l_this_top + 3 + l_font.height
 			end
 		end
+
+feature -- Constants
+
+	colors: CNX_STOCK_COLORS
 
 	margin: INTEGER = 20
 

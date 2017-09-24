@@ -15,6 +15,9 @@ create
 feature {NONE} -- GUI Bits
 
 	label: EV_LABEL
+
+feature {ANY} -- GUI Bits
+
 	list: EV_TREE
 
 feature {NONE} -- Initialization

@@ -100,6 +100,114 @@ feature {NONE} -- Initialization
 			extend (main_box.widget)
 
 			Precursor
+
+			load_songs
 		end
+
+feature -- Hand-loaded
+
+	load_songs
+		do
+			across
+				songs as ic
+			loop
+				load_song (ic.item)
+			end
+		end
+
+	load_song (a_song: CNX_SONG)
+		local
+			l_tree_song,
+			l_tree_stanza: EV_TREE_ITEM
+			l_song: CNX_SONG
+			l_stanza: CNX_STANZA
+		do
+			create l_tree_song.make_with_text (a_song.title)
+				song_list.list.extend (l_tree_song)
+					across
+						a_song.stanzas as ic
+					loop
+						create l_tree_stanza.make_with_text (ic.item.type + ic.item.number.out + " - " + ic.item.text)
+						l_tree_song.extend (l_tree_stanza)
+
+						l_tree_stanza.select_actions.extend (agent on_stanza_select (ic.item))
+						l_tree_stanza.pointer_double_press_actions.extend (agent on_stanza_double_click (?, ?, ?, ?, ?, ?, ?, ?, ic.item))
+					end
+		end
+
+	on_stanza_key_press (a_key: EV_KEY; a_stanza: CNX_STANZA)
+		do
+			if a_key.code = {EV_KEY_CONSTANTS}.key_enter then
+				center_large.on_blank_click
+				center_large.on_set_stanza (a_stanza)
+				center_large.on_move
+			end
+		end
+
+	on_stanza_select (a_stanza: CNX_STANZA)
+		do
+			center_large.on_blank_click
+			center_large.on_set_stanza (a_stanza)
+			song_list.list.key_press_actions.extend_kamikaze (agent on_stanza_key_press (?, a_stanza))
+		end
+
+	on_stanza_double_click (a_x, a_y, a_button: INTEGER_32; a_x_tilt, a_y_tilt, a_pressure: REAL_64; a_screen_x, a_screen_y: INTEGER_32; a_stanza: CNX_STANZA)
+		do
+			center_large.on_blank_click
+			center_large.on_set_stanza (a_stanza)
+			center_large.on_move
+		end
+
+feature {NONE} -- Data
+
+	songs: ARRAYED_LIST [CNX_SONG]
+		attribute
+			create Result.make (20)
+			Result.force (how_great_thou_art)
+			Result.force (amazing_grace)
+		end
+
+	how_great_thou_art: CNX_SONG
+		once
+			create Result.make_with_title ("How Great Thou Art")
+			across
+				how_great_thou_art_words.split ('%N') as ic_song_text
+			loop
+				if ic_song_text.cursor_index = 1 then
+					Result.stanzas.force (create {CNX_STANZA}.make (1, {CNX_CONSTANTS}.chorus_type_tag, ic_song_text.item))
+				else
+					Result.stanzas.force (create {CNX_STANZA}.make (ic_song_text.cursor_index - 1, {CNX_CONSTANTS}.verse_type_tag, ic_song_text.item))
+				end
+			end
+		end
+
+	how_great_thou_art_words: STRING = "[
+Then sings my soul|My Savior, God, to Thee|How great thou art|How great thou art|Then sings my soul|My Savior, God, to Thee|How great Thou art|How great Thou art
+Oh Lord my God|When I in awesome wonder|Consider all the worlds|Thy hands have made|I see the stars|I hear the rolling thunder|Thy power throughout|The universe displayed
+And when I think of God,|His son not sparing,|Sent Him to die,|I scarce can take it in;|That on the cross, my burden|gladly bearing He bled and died|to take away my sin
+When Christ shall come|With shout of acclamation|And take me home|What joy shall fill my heart|Then I shall bow|With humble adoration|And then proclaim My God|How great Thou art
+]"
+
+	amazing_grace: CNX_SONG
+		once
+			create Result.make_with_title ("Amazing Grace")
+			across
+				amazing_grace_words.split ('%N') as ic_song_text
+			loop
+				if ic_song_text.cursor_index = 1 then
+					Result.stanzas.force (create {CNX_STANZA}.make (1, {CNX_CONSTANTS}.chorus_type_tag, ic_song_text.item))
+				else
+					Result.stanzas.force (create {CNX_STANZA}.make (ic_song_text.cursor_index - 1, {CNX_CONSTANTS}.verse_type_tag, ic_song_text.item))
+				end
+			end
+		end
+
+	amazing_grace_words: STRING = "[
+Amazing grace|How sweet the sound|That saved a wretch like me|I once was lost, but now I'm found|Was blind, but now I see
+'Twas grace that taught|my heart to fear|And grace my|fears relieved|How precious did|that grace appear|The hour I|first believed
+My chains|are gone|I've been|set free|My God, my Savior|has ransomed me|And like a flood|His mercy rains|Unending love,|Amazing grace
+The Lord has|promised good to me|His word my|hope secures|He will my|shield and portion be|As long as|life endures
+The earth shall|soon dissolve like snow|The sun forbear|to shine|But God, Who|called me here below|Will be|forever mine
+]"
 
 end

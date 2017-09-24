@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			extend (display.widget)
 
 				-- Settings
-			set_background_color (create {EV_COLOR}.make_with_8_bit_rgb (0, 0, 0))
+			set_background_color (create {EV_COLOR}.make_with_rgb (0.0, 0.0, 1.0))
 
 			Precursor
 

@@ -47,6 +47,7 @@ feature {NONE} -- Initialization
 	default_create
 			-- <Precursor>
 		do
+			create colors
 			create widget
 
 			Precursor
@@ -104,6 +105,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Constants
+
+	colors: CNX_STOCK_COLORS
+
 feature -- Events
 
 	on_preview_double_click (a_x: INTEGER_32; a_y: INTEGER_32; a_button: INTEGER_32; a_x_tilt: REAL_64; a_y_tilt: REAL_64; a_pressure: REAL_64; a_screen_x: INTEGER_32; a_screen_y: INTEGER_32)
@@ -116,11 +121,6 @@ feature -- Events
 		do
 			if attached target_for_move_to then
 				attached_target_for_move_to.preview.wipe_out
-
-					-- TEMP: Remove when ready to apply read text
-				preview.actions.extend (agent preview.on_draw_text ("Oh Lord my God|When I in awesome wonder|Consider all the worlds|Thy hands have made||I see the stars|I hear the rolling thunder|Thy power throughout|The universe displayed", ?))
-				preview.refresh
-
 				attached_target_for_move_to.preview.set_actions_twin (preview.actions)
 				attached_target_for_move_to.preview.refresh
 				attached_target_for_move_to.on_move
@@ -135,7 +135,12 @@ feature -- Events
 			-- What happens when "blank button" is clicked
 		do
 			preview.wipe_out
-			on_move
+		end
+
+	on_set_stanza (a_stanza: CNX_STANZA)
+		do
+			preview.actions.extend (agent preview.on_draw_text (a_stanza.text, ?))
+			preview.refresh
 		end
 
 feature -- Access
