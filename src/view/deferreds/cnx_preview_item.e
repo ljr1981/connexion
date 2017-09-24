@@ -143,10 +143,10 @@ feature -- Events
 			on_move
 		end
 
-	on_set_stanza (a_stanza: CNX_STANZA; a_song: CNX_SONG)
+	on_set_stanza (a_stanza: CNX_STANZA; a_poem: CNX_POEM)
 		do
 			preview.actions.extend (agent preview.on_draw_text (a_stanza.text, ?))
-			preview.actions.extend (agent preview.on_draw_citation (a_song.title, ?))
+			preview.actions.extend (agent preview.on_draw_citation (a_poem.title, ?))
 			preview.refresh
 		end
 

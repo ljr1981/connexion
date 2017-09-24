@@ -4,7 +4,7 @@ note
 		]"
 
 class
-	CNX_SONG
+	CNX_POEM
 
 create
 	make_with_title
@@ -24,7 +24,7 @@ feature -- Access
 	title: STRING
 
 	stanzas: ARRAYED_LIST [CNX_STANZA]
-			-- `stanzas' of Current {CNX_SONG}.
+			-- `stanzas' of Current {CNX_POEM}.
 		attribute
 			create Result.make (5)
 		end

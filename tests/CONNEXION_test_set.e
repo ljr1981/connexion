@@ -26,7 +26,7 @@ feature -- Test routines
 	CONNEXION_tests
 			-- `CONNEXION_tests'
 		local
-			l_song: CNX_SONG
+			l_song: CNX_POEM
 		do
 			create l_song.make_with_title ("How Great Thou Art")
 			across
