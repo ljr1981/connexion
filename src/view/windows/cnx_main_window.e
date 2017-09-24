@@ -43,13 +43,13 @@ feature {NONE} -- Initialization
 	create_interface_objects
 			-- <Precursor>
 		do
-			create display_window.make_with_title ("Display")
+			create display_window.make_with_title (constants.display_window_title)
 
 			create main_box
 				create list_box
-					create announcement_list.make ("Announcements")
-					create song_list.make ("Songs")
-					create notes_list.make ("Notes")
+					create announcement_list.make (constants.announcements_label_text)
+					create song_list.make (constants.songs_list_label_text)
+					create notes_list.make (constants.notes_list_label_text)
 				create prev_disp_vbox
 				create preview_box
 					-- creations are below because we need the `display_large' creation first.
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 	initialize
 			-- <Precursor>
 		do
-			display_window.set_size (800, 600)
+			display_window.set_size (constants.default_window_width, constants.default_window_height)
 			close_request_actions.extend (agent display_window.destroy)
 
 			display_window.show
@@ -88,7 +88,7 @@ feature {NONE} -- Initialization
 				-- Disables
 
 				-- Settings
-			display_box.widget.set_minimum_width (500)
+			display_box.widget.set_minimum_width (constants.default_window_width_minimum)
 			display_large.enable_blanking
 			display_large.set_display_target (display_window)
 
@@ -132,7 +132,7 @@ feature -- Loading
 					across
 						a_item.stanzas as ic
 					loop
-						create l_tree_stanza.make_with_text (ic.item.type + ic.item.number.out + " - " + ic.item.text)
+						create l_tree_stanza.make_with_text (ic.item.type + ic.item.number.out + constants.space_delimited_dash_string + ic.item.text)
 						l_tree_poem.extend (l_tree_stanza)
 
 						l_tree_stanza.select_actions.extend (agent on_stanza_select (ic.item, a_item))
@@ -162,6 +162,10 @@ feature -- Loading
 			center_large.on_set_stanza (a_stanza, a_poem)
 			center_large.on_move
 		end
+
+feature {NONE} -- Constants
+
+	constants: CNX_CONSTANTS once create Result end
 
 feature {NONE} -- Data
 

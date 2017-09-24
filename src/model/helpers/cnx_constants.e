@@ -19,9 +19,17 @@ feature -- Constants
 			Result.force (verse_type_tag, verse_type_tag)
 		end
 
+	announcements_label_text: STRING = "Accouncements"
+	songs_list_label_text: STRING = "Songs"
+	notes_list_label_text: STRING = "Notes"
+	space_delimited_dash_string: STRING = " - "
 	bottom_margin_height: INTEGER = 35
 	colors: CNX_STOCK_COLORS once create Result end
 	default_indent: INTEGER
+	default_window_height: INTEGER = 600
+	default_window_width: INTEGER = 800
+	default_window_width_minimum: INTEGER = 500
+	display_window_title: STRING = "Display"
 	double: INTEGER = 2
 	eighty_percent: REAL = 0.80
 	empty_string: STRING = ""
