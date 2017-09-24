@@ -20,15 +20,12 @@ feature -- Constants
 		end
 
 	announcements_label_text: STRING = "Accouncements"
-	songs_list_label_text: STRING = "Songs"
-	notes_list_label_text: STRING = "Notes"
-	space_delimited_dash_string: STRING = " - "
 	blank_title: STRING = "Blank"
 	bottom_margin_height: INTEGER = 35
 	colors: CNX_STOCK_COLORS once create Result end
-	default_preview_size_width: INTEGER = 600
-	default_preview_size_height: INTEGER = 450
 	default_indent: INTEGER
+	default_preview_size_height: INTEGER = 450
+	default_preview_size_width: INTEGER = 600
 	default_window_height: INTEGER = 600
 	default_window_width: INTEGER = 800
 	default_window_width_minimum: INTEGER = 500
@@ -41,10 +38,13 @@ feature -- Constants
 	margin: INTEGER = 20
 	mod_two: INTEGER = 2
 	newline: STRING = "%N"
+	notes_list_label_text: STRING = "Notes"
 	nothing: INTEGER = 0
 	one: INTEGER = 1
 	padding_and_border_pixels: INTEGER = 3
 	pipe_char: CHARACTER = '|'
+	songs_list_label_text: STRING = "Songs"
+	space_delimited_dash_string: STRING = " - "
 	tab: STRING = "%T"
 	text_offset: INTEGER = 4
 

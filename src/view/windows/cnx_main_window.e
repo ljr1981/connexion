@@ -24,6 +24,12 @@ feature {NONE} -- GUI bits
 
 	main_box: CNX_PLAIN_HORIZONTAL_BOX_WIDGET -- ::=
 
+		notebook: EV_NOTEBOOK
+			service_tab: CNX_PLAIN_HORIZONTAL_BOX_WIDGET
+			announcements_tab,
+			songs_tab,
+			notes_tab: CNX_PLAIN_VERTICAL_BOX_WIDGET
+
 		list_box: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
 
 			announcement_list,
@@ -46,6 +52,19 @@ feature {NONE} -- Initialization
 			create display_window.make_with_title (constants.display_window_title)
 
 			create main_box
+				create notebook
+					create service_tab
+					notebook.extend (service_tab.widget)
+					notebook.item_tab (service_tab.widget).set_text ("Service")
+					create announcements_tab
+					notebook.extend (announcements_tab.widget)
+					notebook.item_tab (announcements_tab.widget).set_text ("Announcements")
+					create songs_tab
+					notebook.extend (songs_tab.widget)
+					notebook.item_tab (songs_tab.widget).set_text ("Songs")
+					create notes_tab
+					notebook.extend (notes_tab.widget)
+					notebook.item_tab (notes_tab.widget).set_text ("Notes")
 				create list_box
 					create announcement_list.make (constants.announcements_label_text)
 					create song_list.make (constants.songs_list_label_text)
@@ -71,12 +90,13 @@ feature {NONE} -- Initialization
 				-- Stuff inside main_box
 
 				-- Extensions
-			main_box.widget.extend (list_box.widget)
+			main_box.widget.extend (notebook)
+			service_tab.widget.extend (list_box.widget)
 				list_box.widget.extend (announcement_list.widget)
 				list_box.widget.extend (song_list.widget)
 				list_box.widget.extend (notes_list.widget)
 
-			main_box.widget.extend (prev_disp_vbox.widget)
+			service_tab.widget.extend (prev_disp_vbox.widget)
 
 			prev_disp_vbox.widget.extend (preview_box.widget)
 				preview_box.widget.extend (center_large.widget)
