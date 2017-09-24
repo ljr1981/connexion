@@ -115,16 +115,46 @@ feature {NONE} -- Initialization
 			stanza_type_label_field.extend (stanza_type_field)
 
 		stanza_detail_view.extend (stanza_number_label_field)
-			stanza_type_label_field.extend (stanza_number_label)
-			stanza_type_label_field.extend (stanza_number_field)
+			stanza_number_label_field.extend (stanza_number_label)
+			stanza_number_label_field.extend (stanza_number_field)
 
 		stanza_detail_view.extend (stanza_text_label_field)
-			stanza_type_label_field.extend (stanza_text_label)
-			stanza_type_label_field.extend (stanza_text_field)
+			stanza_text_label_field.extend (stanza_text_label)
+			stanza_text_label_field.extend (stanza_text_field)
 
 			-- Disables
+		widget.disable_item_expand (title_label_field)
+
+		title_label_field.disable_item_expand (title_label)
+		stanza_detail_view.disable_item_expand (stanza_type_label_field)
+		stanza_detail_view.disable_item_expand (stanza_number_label_field)
+
+		stanza_type_label_field.disable_item_expand (stanza_type_label)
+		stanza_number_label_field.disable_item_expand (stanza_number_label)
+		stanza_text_label_field.disable_item_expand (stanza_text_label)
+
 			-- Settings
+		title_label.align_text_left
+		stanza_type_label.align_text_left
+		stanza_number_label.align_text_left
+		stanza_text_label.align_text_left
+
 			-- Paddings & Borders
+		title_label_field.set_padding (3)
+		title_label_field.set_border_width (3)
+
+		stanza_list_view.set_padding (3)
+		stanza_list_view.set_border_width (3)
+
+		stanza_type_label_field.set_padding (3)
+		stanza_type_label_field.set_border_width (3)
+
+		stanza_number_label_field.set_padding (3)
+		stanza_number_label_field.set_border_width (3)
+
+		stanza_text_label_field.set_padding (3)
+		stanza_text_label_field.set_border_width (3)
+
 		end
 
 end

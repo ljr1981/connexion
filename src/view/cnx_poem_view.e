@@ -25,6 +25,8 @@ feature -- GUI Bits: Access
 
 feature {NONE} -- GUI Bits
 
+	poem_list_view: EV_VERTICAL_BOX
+	poem_list_label: EV_LABEL
 	poem_list: EV_TREE
 
 	detail_view: CNX_POEM_DETAIL_VIEW
@@ -39,6 +41,8 @@ feature {NONE} -- Initialization
 	default_create
 			-- <Precursor>
 		do
+			create poem_list_view
+			create poem_list_label.make_with_text ("Items: ")
 			create poem_list
 			create detail_view
 
@@ -51,11 +55,28 @@ feature {NONE} -- Initialization
 	initialize
 		do
 			--	Horizontal_view ::= *Current or Current.widget
-			--		Tree_list_of_poems
+			--		Poem_list_view
 			--		Poem_detail_view
-			widget.extend (poem_list)
+			--
+			-- 	Poem_list_view ::=
+			-- 		Poem_list_label
+			--		Poem_list
+			widget.extend (poem_list_view)
+				poem_list_view.extend (poem_list_label)
+				poem_list_view.extend (poem_list)
 			widget.extend (detail_view.widget)
 
+				-- Disables
+			poem_list_view.disable_item_expand (poem_list_label)
+
+				-- Settings
+			poem_list_label.align_text_left
+
+				-- Padding & Borders
+			poem_list_view.set_padding (3)
+			poem_list_view.set_border_width (3)
+			
+				-- Other
 		end
 
 end
