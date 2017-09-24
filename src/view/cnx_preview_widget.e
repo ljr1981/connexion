@@ -111,9 +111,9 @@ feature -- Ops
 		do
 			create l_font.make_with_values ({EV_FONT_CONSTANTS}.family_screen, {EV_FONT_CONSTANTS}.weight_regular, {EV_FONT_CONSTANTS}.shape_regular, 20)
 			l_font_width := l_font.string_width (a_text)
-			l_this_top := a_widget.height - (l_font_height + 35)
+			l_this_top := a_widget.height - (l_font_height + bottom_margin_height)
 			a_widget.set_font (l_font)
-			a_widget.draw_text_top_left (50, l_this_top, a_text)
+			a_widget.draw_text_top_left (margin, l_this_top, a_text)
 		end
 
 	on_draw_text (a_text: STRING; a_widget: like widget)
@@ -128,7 +128,7 @@ feature -- Ops
 			l_line: STRING
 		do
 			create l_font.make_with_values ({EV_FONT_CONSTANTS}.family_screen, {EV_FONT_CONSTANTS}.weight_regular, {EV_FONT_CONSTANTS}.shape_regular, 1)
-			l_list := a_text.split ('|')
+			l_list := a_text.split (pipe_char)
 
 				-- Compute the longest string
 			across
@@ -150,7 +150,7 @@ feature -- Ops
 			loop
 				l_font.set_height (l_font_height)
 				l_font_width := l_font.string_width (l_longest_string)
-				l_font_height := l_font_height + 1
+				l_font_height := l_font_height + one
 			end
 				-- Draw each line of text using calcs above
 			across
@@ -160,14 +160,14 @@ feature -- Ops
 				l_this_top := l_this_top // mod_two
 			loop
 				a_widget.set_font (l_font)
-				if not ic.item [1].is_upper then
+				if not ic.item [first_item].is_upper then
 					l_indent := default_indent
 				else
 					l_indent := nothing
 				end
 				l_line := ic.item
-				l_line.replace_substring_all ("%N", "")
-				l_line.replace_substring_all ("%T", "")
+				l_line.replace_substring_all (newline, empty_string)
+				l_line.replace_substring_all (tab, empty_string)
 				a_widget.set_foreground_color (colors.black)
 				a_widget.draw_text_top_left (((a_widget.width - l_font_width) / half).truncated_to_integer + l_indent + text_offset, l_this_top + text_offset, l_line)
 				a_widget.set_foreground_color (colors.white)
@@ -178,22 +178,22 @@ feature -- Ops
 
 feature -- Constants
 
+	bottom_margin_height: INTEGER = 35
 	colors: CNX_STOCK_COLORS
-
-	text_offset: INTEGER = 4
-
-	margin: INTEGER = 20
-
 	default_indent: INTEGER
-
-	eighty_percent: REAL = 0.80
-
-	half,
-	mod_two,
 	double: INTEGER = 2
-	one: INTEGER = 1
+	eighty_percent: REAL = 0.80
+	empty_string: STRING = ""
+	first_item: INTEGER = 1
+	half: INTEGER = 2
+	margin: INTEGER = 20
+	mod_two: INTEGER = 2
+	newline: STRING = "%N"
 	nothing: INTEGER = 0
-
+	one: INTEGER = 1
 	padding_and_border_pixels: INTEGER = 3
+	pipe_char: CHARACTER = '|'
+	tab: STRING = "%T"
+	text_offset: INTEGER = 4
 
 end
