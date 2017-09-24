@@ -47,7 +47,6 @@ feature {NONE} -- Initialization
 	default_create
 			-- <Precursor>
 		do
-			create colors
 			create widget
 
 			Precursor
@@ -104,10 +103,6 @@ feature {NONE} -- Initialization
 				preview.widget.pointer_double_press_actions.extend (agent on_preview_double_click)
 			end
 		end
-
-feature -- Constants
-
-	colors: CNX_STOCK_COLORS
 
 feature -- Events
 
