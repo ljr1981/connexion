@@ -115,16 +115,16 @@ feature -- Ops
 			a_widget.draw_text_top_left (margin, l_this_top, a_text)
 		end
 
-	on_draw_text (a_text: STRING; a_widget: like widget)
+	on_draw_text (a_text: STRING_32; a_widget: like widget)
 		local
 			l_font: EV_FONT
 			l_font_height: INTEGER
 			l_this_top: INTEGER
 			l_font_width: INTEGER
 			l_longest_string: STRING
-			l_list: LIST [STRING]
+			l_list: LIST [STRING_32]
 			l_indent: INTEGER
-			l_line: STRING
+			l_line: STRING_32
 		do
 			create l_font.make_with_values ({EV_FONT_CONSTANTS}.family_screen, {EV_FONT_CONSTANTS}.weight_regular, {EV_FONT_CONSTANTS}.shape_regular, 1)
 			l_list := a_text.split (pipe_char)

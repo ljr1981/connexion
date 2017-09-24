@@ -26,12 +26,12 @@ feature -- Access
 
 	number: INTEGER
 
-	type: STRING
+	type: STRING_32
 		attribute
 			Result := constants.verse_type_tag
 		end
 
-	text: STRING
+	text: STRING_32
 		attribute
 			create Result.make_empty
 		end

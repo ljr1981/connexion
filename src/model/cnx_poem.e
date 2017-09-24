@@ -21,7 +21,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	title: STRING
+	title: STRING_32
 
 	stanzas: ARRAYED_LIST [CNX_STANZA]
 			-- `stanzas' of Current {CNX_POEM}.

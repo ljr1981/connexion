@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Representation of the Main Window for Connexion.
 		]"
@@ -193,6 +193,7 @@ feature {NONE} -- Data
 		attribute
 			create Result.make (20)
 			Result.force (john_3_16)
+			Result.force (john_3_16_hebrew)
 		end
 
 	songs: ARRAYED_LIST [CNX_POEM]
@@ -257,6 +258,20 @@ The earth shall|soon dissolve like snow;|The sun forbear|to shine.|But God, Who|
 
 	john_3_16_text: STRING = "[
 John 3:16 For God so loved the world,|that he gave his only begotten Son,|that whosoever believeth in him|should not perish,|but have everlasting life.
+]"
+
+	john_3_16_hebrew: CNX_POEM
+		once
+			create Result.make_with_title ("John 3:16 (KVJ)")
+			across
+				john_3_16_hebrew_text.split ('%N') as ic_poem_text
+			loop
+				Result.stanzas.force (create {CNX_STANZA}.make (ic_poem_text.cursor_index, {CNX_CONSTANTS}.verse_type_tag, ic_poem_text.item))
+			end
+		end
+
+	john_3_16_hebrew_text: STRING_32 = "[
+כי ככה |אהב האלהים |את העולם עד |אשר נתן את בנו את |יחידו למען לא יאבד |כל המאמין בו כי אם |יחיה חיי עולמים׃
 ]"
 
 end
