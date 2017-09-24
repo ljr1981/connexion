@@ -31,8 +31,8 @@ feature {NONE} -- Initialization
 
 			number := json_object_to_integer ("number", l_object)
 			create l_converter
-			l_converter.escaped_utf_32_string_into_utf_8_string_8 (json_object_to_json_string_representation_attached ("type", l_object), type)
 			text := json_object_to_json_string_representation_attached ("text", l_object)
+			type := json_object_to_json_string_representation_attached ("type", l_object)
 		end
 
 	make (a_number: like number; a_type: like type; a_text: like text)
