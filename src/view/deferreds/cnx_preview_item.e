@@ -176,7 +176,7 @@ feature -- Ops
 		local
 			l_button: EV_BUTTON
 		do
-			create l_button.make_with_text_and_action ("Blank", agent on_blank_and_move)
+			create l_button.make_with_text_and_action ({CNX_CONSTANTS}.blank_title, agent on_blank_and_move)
 			preview_control_hbox.extend (l_button)
 		end
 

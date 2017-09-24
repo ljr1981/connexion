@@ -23,6 +23,7 @@ feature -- Constants
 	songs_list_label_text: STRING = "Songs"
 	notes_list_label_text: STRING = "Notes"
 	space_delimited_dash_string: STRING = " - "
+	blank_title: STRING = "Blank"
 	bottom_margin_height: INTEGER = 35
 	colors: CNX_STOCK_COLORS once create Result end
 	default_preview_size_width: INTEGER = 600
