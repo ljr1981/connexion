@@ -128,11 +128,19 @@ feature {NONE} -- Initialization
 feature -- Loading
 
 	load_songs
+		local
+			l_json_string: STRING_32
+			l_title: STRING
+			l_file: PLAIN_TEXT_FILE
 		do
 			load_list (songs, song_list)
 		end
 
 	load_notes
+		local
+			l_json_string: STRING_32
+			l_title: STRING
+			l_file: PLAIN_TEXT_FILE
 		do
 			load_list (notes, notes_list)
 		end
@@ -205,73 +213,38 @@ feature {NONE} -- Data
 
 	how_great_thou_art: CNX_POEM
 		once
-			create Result.make_with_title ("How Great Thou Art")
-			across
-				how_great_thou_art_words.split ('%N') as ic_poem_text
-			loop
-				if ic_poem_text.cursor_index = 1 then
-					Result.stanzas.force (create {CNX_STANZA}.make (1, {CNX_CONSTANTS}.chorus_type_tag, ic_poem_text.item))
-				else
-					Result.stanzas.force (create {CNX_STANZA}.make (ic_poem_text.cursor_index - 1, {CNX_CONSTANTS}.verse_type_tag, ic_poem_text.item))
-				end
-			end
+			create Result.make_from_json (how_great_thou_art_json)
 		end
 
-	how_great_thou_art_words: STRING = "[
-Then sings my soul|My Savior, God, to Thee|How great thou art|How great thou art|Then sings my soul|My Savior, God, to Thee|How great Thou art|How great Thou art
-Oh Lord my God|When I in awesome wonder|Consider all the worlds|Thy hands have made|I see the stars|I hear the rolling thunder|Thy power throughout|The universe displayed
-And when I think of God,|His son not sparing,|Sent Him to die,|I scarce can take it in;|That on the cross, my burden|gladly bearing|He bled and died|to take away my sin
-When Christ shall come|With shout of acclamation|And take me home|What joy shall fill my heart|Then I shall bow|With humble adoration|And then proclaim My God|How great Thou art
+	how_great_thou_art_json: STRING = "[
+{"title":"How Great Thou Art","stanzas":[{"type":"chorus","text":"Then sings my soul|My Savior, God, to Thee|How great thou art|How great thou art|Then sings my soul|My Savior, God, to Thee|How great Thou art|How great Thou art","number":1},{"type":"verse","text":"Oh Lord my God|When I in awesome wonder|Consider all the worlds|Thy hands have made|I see the stars|I hear the rolling thunder|Thy power throughout|The universe displayed","number":1},{"type":"verse","text":"And when I think of God,|His son not sparing,|Sent Him to die,|I scarce can take it in;|That on the cross, my burden|gladly bearing|He bled and died|to take away my sin","number":2},{"type":"verse","text":"When Christ shall come|With shout of acclamation|And take me home|What joy shall fill my heart|Then I shall bow|With humble adoration|And then proclaim My God|How great Thou art","number":3}]}
 ]"
 
 	amazing_grace: CNX_POEM
 		once
-			create Result.make_with_title ("Amazing Grace")
-			across
-				amazing_grace_words.split ('%N') as ic_poem_text
-			loop
-				if ic_poem_text.cursor_index = 1 then
-					Result.stanzas.force (create {CNX_STANZA}.make (1, {CNX_CONSTANTS}.chorus_type_tag, ic_poem_text.item))
-				else
-					Result.stanzas.force (create {CNX_STANZA}.make (ic_poem_text.cursor_index - 1, {CNX_CONSTANTS}.verse_type_tag, ic_poem_text.item))
-				end
-			end
+			create Result.make_from_json (amazing_grace_json)
 		end
 
-	amazing_grace_words: STRING = "[
-Amazing grace|how sweet the sound|that saved a|wretch like me.|I once was lost, but now I'm found|Was blind, but now I see.
-Twas grace that taught|my heart to fear|And grace|my fears relieved!|How precious did|that grace appear|The hour I|first believed.
-My chains|are gone;|I've been|set free|My God, my Savior|has ransomed me|And like a flood,|His mercy rains|unending love,|Amazing grace
-The Lord has|promised good to me.|His word my|hope secures!|He will my|shield and portion be|as long as|life endures.
-The earth shall|soon dissolve like snow;|The sun forbear|to shine.|But God, Who|called me here below|will be|forever mine
+	amazing_grace_json: STRING = "[
+{"title":"Amazing Grace","stanzas":[{"type":"chorus","text":"Amazing grace|how sweet the sound|that saved a|wretch like me.|I once was lost, but now I'm found|Was blind, but now I see.","number":1},{"type":"verse","text":"Twas grace that taught|my heart to fear|And grace|my fears relieved!|How precious did|that grace appear|The hour I|first believed.","number":1},{"type":"verse","text":"My chains|are gone;|I've been|set free|My God, my Savior|has ransomed me|And like a flood,|His mercy rains|unending love,|Amazing grace","number":2},{"type":"verse","text":"The Lord has|promised good to me.|His word my|hope secures!|He will my|shield and portion be|as long as|life endures.","number":3},{"type":"verse","text":"The earth shall|soon dissolve like snow;|The sun forbear|to shine.|But God, Who|called me here below|will be|forever mine","number":4}]}
 ]"
 
 	john_3_16: CNX_POEM
 		once
-			create Result.make_with_title ("John 3:16 (KVJ)")
-			across
-				john_3_16_text.split ('%N') as ic_poem_text
-			loop
-				Result.stanzas.force (create {CNX_STANZA}.make (ic_poem_text.cursor_index, {CNX_CONSTANTS}.verse_type_tag, ic_poem_text.item))
-			end
+			create Result.make_from_json (john_3_16_json)
 		end
 
-	john_3_16_text: STRING = "[
-John 3:16 For God so loved the world,|that he gave his only begotten Son,|that whosoever believeth in him|should not perish,|but have everlasting life.
+	john_3_16_json: STRING = "[
+{"title":"John 3 16 KJV","stanzas":[{"type":"verse","text":"John 3:16 For God so loved the world,|that he gave his only begotten Son,|that whosoever believeth in him|should not perish,|but have everlasting life.","number":1}]}
 ]"
 
 	john_3_16_hebrew: CNX_POEM
 		once
-			create Result.make_with_title ("John 3:16 (KVJ)")
-			across
-				john_3_16_hebrew_text.split ('%N') as ic_poem_text
-			loop
-				Result.stanzas.force (create {CNX_STANZA}.make (ic_poem_text.cursor_index, {CNX_CONSTANTS}.verse_type_tag, ic_poem_text.item))
-			end
+			create Result.make_from_json (john_3_16_hebrew_json)
 		end
 
-	john_3_16_hebrew_text: STRING_32 = "[
-כי ככה |אהב האלהים |את העולם עד |אשר נתן את בנו את |יחידו למען לא יאבד |כל המאמין בו כי אם |יחיה חיי עולמים׃
+	john_3_16_hebrew_json: STRING = "[
+{"title":"John 3 16 KJV Hebrew","stanzas":[{"type":"verse","text":"\u05DB\u05D9 \u05DB\u05DB\u05D4 |\u05D0\u05D4\u05D1 \u05D4\u05D0\u05DC\u05D4\u05D9\u05DD |\u05D0\u05EA \u05D4\u05E2\u05D5\u05DC\u05DD \u05E2\u05D3 |\u05D0\u05E9\u05E8 \u05E0\u05EA\u05DF \u05D0\u05EA \u05D1\u05E0\u05D5 \u05D0\u05EA |\u05D9\u05D7\u05D9\u05D3\u05D5 \u05DC\u05DE\u05E2\u05DF \u05DC\u05D0 \u05D9\u05D0\u05D1\u05D3 |\u05DB\u05DC \u05D4\u05DE\u05D0\u05DE\u05D9\u05DF \u05D1\u05D5 \u05DB\u05D9 \u05D0\u05DD |\u05D9\u05D7\u05D9\u05D4 \u05D7\u05D9\u05D9 \u05E2\u05D5\u05DC\u05DE\u05D9\u05DD\u05C3","number":1}]}
 ]"
 
 end

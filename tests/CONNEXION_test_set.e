@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Tests of {CONNEXION}."
 	testing: "type/manual"
 
@@ -42,7 +42,28 @@ feature -- Test routines
 			assert_integers_equal ("verse_count", 3, l_song.verse_count)
 		end
 
+	esc_utf8_test
+		local
+			l_converter: UTF_CONVERTER
+			l_result: STRING_32
+		do
+			create l_converter
+			create l_result.make_empty
+			l_result := l_converter.utf_8_string_8_to_string_32 (l_converter.escaped_utf_32_string_to_utf_8_string_8 (esc_utf8))
+			assert_strings_equal ("conv", {STRING_32} "כי ככה", l_result)
+		end
+
 feature {NONE} -- Data
+
+	esc_utf8: STRING_8
+		local
+			l_converter: UTF_CONVERTER
+		once
+			create l_converter
+			create Result.make_empty
+			Result.append_string_general (l_converter.utf_8_bom_to_string_8)
+			Result.append_string_general ("\u05DB\u05D9 \u05DB\u05DB\u05D4")
+		end
 
 	how_great_thou_art: STRING = "[
 Then sings my soul|My Savior, God, to Thee|How great thou art|How great thou art|Then sings my soul|My Savior, God, to Thee|How great Thou art|How great Thou art
