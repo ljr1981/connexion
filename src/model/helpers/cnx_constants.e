@@ -25,6 +25,8 @@ feature -- Constants
 	space_delimited_dash_string: STRING = " - "
 	bottom_margin_height: INTEGER = 35
 	colors: CNX_STOCK_COLORS once create Result end
+	default_preview_size_width: INTEGER = 600
+	default_preview_size_height: INTEGER = 450
 	default_indent: INTEGER
 	default_window_height: INTEGER = 600
 	default_window_width: INTEGER = 800

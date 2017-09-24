@@ -37,12 +37,12 @@ feature {NONE} -- Initialization
 			extend (display.widget)
 
 				-- Settings
-			set_background_color (create {EV_COLOR}.make_with_rgb (0.0, 0.0, 1.0))
+			set_background_color (constants.colors.blue)
 
 			Precursor
 
 				-- Events
-			display.widget.set_size (800, 600)
+			display.widget.set_size (constants.default_window_width, constants.default_window_height)
 			display.widget.pointer_double_press_actions.extend (agent on_resize)
 			display.wipe_out
 		end
@@ -64,5 +64,9 @@ feature {NONE} -- Implementation
 			display.widget.set_size (width, height)
 			display.refresh
 		end
+
+feature {NONE} -- Constants
+
+	constants: CNX_CONSTANTS once create Result end
 
 end

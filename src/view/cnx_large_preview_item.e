@@ -17,8 +17,12 @@ feature {NONE} -- Implementation
 
 	preview_size: TUPLE [width, height: INTEGER]
 		do
-			Result := [600, 450]
-			widget.set_minimum_size (600, 450)
+			Result := [constants.default_preview_size_width, constants.default_preview_size_height]
+			widget.set_minimum_size (constants.default_preview_size_width, constants.default_preview_size_height)
 		end
+
+feature -- Constants
+
+	constants: CNX_CONSTANTS once create Result end
 
 end
