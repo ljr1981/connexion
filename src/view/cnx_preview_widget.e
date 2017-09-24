@@ -37,7 +37,7 @@ feature -- Access
 
 	foreground_color: EV_COLOR
 		attribute
-			create Result.make_with_rgb (1.0, 1.0, 1.0)
+			Result := colors.white_smoke
 		end
 
 feature -- Setters
@@ -99,18 +99,33 @@ feature -- Ops
 			a_widget.set_foreground_color (foreground_color)
 		end
 
-	on_draw_text (a_text: STRING; a_widget: like widget)
+	on_draw_citation (a_text: STRING; a_widget: like widget)
 		local
-			l_line_width,
-			l_line_height: INTEGER
-			l_orig_x,
-			l_orgi_y: INTEGER
 			l_font: EV_FONT
-			l_font_height,
-			l_this_top,
+			l_font_height: INTEGER
+			l_this_top: INTEGER
 			l_font_width: INTEGER
 			l_longest_string: STRING
 			l_list: LIST [STRING]
+			l_indent: INTEGER
+		do
+			create l_font.make_with_values ({EV_FONT_CONSTANTS}.family_screen, {EV_FONT_CONSTANTS}.weight_regular, {EV_FONT_CONSTANTS}.shape_regular, 20)
+			l_font_width := l_font.string_width (a_text)
+			l_this_top := a_widget.height - (l_font_height + 35)
+			a_widget.set_font (l_font)
+			a_widget.draw_text_top_left (50, l_this_top, a_text)
+		end
+
+	on_draw_text (a_text: STRING; a_widget: like widget)
+		local
+			l_font: EV_FONT
+			l_font_height: INTEGER
+			l_this_top: INTEGER
+			l_font_width: INTEGER
+			l_longest_string: STRING
+			l_list: LIST [STRING]
+			l_indent: INTEGER
+			l_line: STRING
 		do
 			create l_font.make_with_values ({EV_FONT_CONSTANTS}.family_screen, {EV_FONT_CONSTANTS}.weight_regular, {EV_FONT_CONSTANTS}.shape_regular, 1)
 			l_list := a_text.split ('|')
@@ -127,11 +142,11 @@ feature -- Ops
 			end
 				-- Compute font height based on it
 			from
-				l_font_height := 1
-				l_font_width := 0
+				l_font_height := one
+				l_font_width := nothing
 			until
-				(((margin * 2) + l_font_width) / a_widget.width) > 0.95 or
-				((margin * 2) + (l_list.count * (l_font_height + 3))) / a_widget.height > 0.95
+				(((margin * double) + l_font_width) / a_widget.width) > eighty_percent or
+				((margin * double) + (l_list.count * (l_font_height + padding_and_border_pixels))) / a_widget.height > eighty_percent
 			loop
 				l_font.set_height (l_font_height)
 				l_font_width := l_font.string_width (l_longest_string)
@@ -140,10 +155,24 @@ feature -- Ops
 				-- Draw each line of text using calcs above
 			across
 				l_list as ic
+			from
+				l_this_top := a_widget.height - ( l_list.count * (l_font_height + padding_and_border_pixels) )
+				l_this_top := l_this_top // mod_two
 			loop
 				a_widget.set_font (l_font)
-				a_widget.draw_text_top_left (((a_widget.width - l_font_width) / 2).truncated_to_integer, l_this_top, ic.item)
-				l_this_top := l_this_top + 3 + l_font.height
+				if not ic.item [1].is_upper then
+					l_indent := default_indent
+				else
+					l_indent := nothing
+				end
+				l_line := ic.item
+				l_line.replace_substring_all ("%N", "")
+				l_line.replace_substring_all ("%T", "")
+				a_widget.set_foreground_color (colors.black)
+				a_widget.draw_text_top_left (((a_widget.width - l_font_width) / half).truncated_to_integer + l_indent + text_offset, l_this_top + text_offset, l_line)
+				a_widget.set_foreground_color (colors.white)
+				a_widget.draw_text_top_left (((a_widget.width - l_font_width) / half).truncated_to_integer + l_indent, l_this_top, l_line)
+				l_this_top := l_this_top + padding_and_border_pixels + l_font.height
 			end
 		end
 
@@ -151,6 +180,20 @@ feature -- Constants
 
 	colors: CNX_STOCK_COLORS
 
+	text_offset: INTEGER = 4
+
 	margin: INTEGER = 20
+
+	default_indent: INTEGER
+
+	eighty_percent: REAL = 0.80
+
+	half,
+	mod_two,
+	double: INTEGER = 2
+	one: INTEGER = 1
+	nothing: INTEGER = 0
+
+	padding_and_border_pixels: INTEGER = 3
 
 end

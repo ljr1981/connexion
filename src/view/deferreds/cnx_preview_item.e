@@ -137,9 +137,16 @@ feature -- Events
 			preview.wipe_out
 		end
 
-	on_set_stanza (a_stanza: CNX_STANZA)
+	on_blank_and_move
+		do
+			on_blank_click
+			on_move
+		end
+
+	on_set_stanza (a_stanza: CNX_STANZA; a_song: CNX_SONG)
 		do
 			preview.actions.extend (agent preview.on_draw_text (a_stanza.text, ?))
+			preview.actions.extend (agent preview.on_draw_citation (a_song.title, ?))
 			preview.refresh
 		end
 
@@ -174,7 +181,7 @@ feature -- Ops
 		local
 			l_button: EV_BUTTON
 		do
-			create l_button.make_with_text_and_action ("Blank", agent on_blank_click)
+			create l_button.make_with_text_and_action ("Blank", agent on_blank_and_move)
 			preview_control_hbox.extend (l_button)
 		end
 
