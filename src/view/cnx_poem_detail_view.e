@@ -41,6 +41,7 @@ feature {NONE} -- GUI Bits
 	stanza_list_view: EV_VERTICAL_BOX
 
 	stanza_list: EV_TREE
+	stanza_list_label: EV_LABEL
 	stanza_detail_view: EV_VERTICAL_BOX
 
 	stanza_type_label_field: EV_HORIZONTAL_BOX
@@ -49,9 +50,9 @@ feature {NONE} -- GUI Bits
 	stanza_number_label_field: EV_HORIZONTAL_BOX
 	stanza_number_label: EV_LABEL
 	stanza_number_field: EV_TEXT_FIELD
-	stanza_text_label_field: EV_HORIZONTAL_BOX
+	stanza_text_label_field: EV_VERTICAL_BOX
 	stanza_text_label: EV_LABEL
-	stanza_text_field: EV_TEXT_FIELD
+	stanza_text_field: EV_RICH_TEXT
 
 feature {NONE} -- Initialization
 
@@ -74,6 +75,7 @@ feature {NONE} -- Initialization
 			--		Stanza_list
 			--		Stanza_detail_view
 			create stanza_list_view
+			create stanza_list_label.make_with_text ("Stanzas: ")
 			create stanza_list
 			create stanza_detail_view
 
@@ -107,6 +109,7 @@ feature {NONE} -- Initialization
 			title_label_field.extend (title_field)
 
 		widget.extend (stanza_list_view)
+			stanza_list_view.extend (stanza_list_label)
 			stanza_list_view.extend (stanza_list)
 			stanza_list_view.extend (stanza_detail_view)
 
@@ -126,6 +129,9 @@ feature {NONE} -- Initialization
 		widget.disable_item_expand (title_label_field)
 
 		title_label_field.disable_item_expand (title_label)
+
+		stanza_list_view.disable_item_expand (stanza_list_label)
+
 		stanza_detail_view.disable_item_expand (stanza_type_label_field)
 		stanza_detail_view.disable_item_expand (stanza_number_label_field)
 
@@ -135,6 +141,7 @@ feature {NONE} -- Initialization
 
 			-- Settings
 		title_label.align_text_left
+		stanza_list_label.align_text_left
 		stanza_type_label.align_text_left
 		stanza_number_label.align_text_left
 		stanza_text_label.align_text_left
