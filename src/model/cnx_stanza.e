@@ -24,13 +24,11 @@ feature {NONE} -- Initialization
 		local
 			l_object: detachable JSON_OBJECT					-- You must have one of these because ...
 			l_any: detachable ANY
-			l_converter: UTF_CONVERTER
 		do
 			l_object := json_string_to_json_object (a_json)		-- ... the JSON string is parsed to a JSON_OBJECT.
 			check attached_object: attached l_object end		-- This proves that our JSON parsing was okay.
 
 			number := json_object_to_integer ("number", l_object)
-			create l_converter
 			text := json_object_to_json_string_representation_attached ("text", l_object)
 			type := json_object_to_json_string_representation_attached ("type", l_object)
 		end

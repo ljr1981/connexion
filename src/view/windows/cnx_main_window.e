@@ -28,7 +28,7 @@ feature {NONE} -- GUI bits
 			service_tab: CNX_PLAIN_HORIZONTAL_BOX_WIDGET
 			announcements_tab,
 			songs_tab,
-			notes_tab: CNX_PLAIN_VERTICAL_BOX_WIDGET
+			notes_tab: CNX_PLAIN_HORIZONTAL_BOX_WIDGET
 
 		list_box: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
 
