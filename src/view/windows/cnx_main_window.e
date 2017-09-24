@@ -30,6 +30,10 @@ feature {NONE} -- GUI bits
 			songs_tab,
 			notes_tab: CNX_PLAIN_HORIZONTAL_BOX_WIDGET
 
+			announcement_view,
+			song_view,
+			notes_view: CNX_POEM_VIEW
+
 		list_box: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
 
 			announcement_list,
@@ -65,6 +69,11 @@ feature {NONE} -- Initialization
 					create notes_tab
 					notebook.extend (notes_tab.widget)
 					notebook.item_tab (notes_tab.widget).set_text ("Notes")
+
+					create announcement_view
+					create song_view
+					create notes_view
+
 				create list_box
 					create announcement_list.make (constants.announcements_label_text)
 					create song_list.make (constants.songs_list_label_text)
@@ -97,6 +106,9 @@ feature {NONE} -- Initialization
 				list_box.widget.extend (notes_list.widget)
 
 			service_tab.widget.extend (prev_disp_vbox.widget)
+			announcements_tab.widget.extend (announcement_view.widget)
+			songs_tab.widget.extend (song_view.widget)
+			notes_tab.widget.extend (notes_view.widget)
 
 			prev_disp_vbox.widget.extend (preview_box.widget)
 				preview_box.widget.extend (center_large.widget)
