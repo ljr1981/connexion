@@ -8,6 +8,11 @@ class
 
 inherit
 	CNX_VERTICAL_BOX_WIDGET
+		undefine
+			default_create
+		end
+
+	CNX_CONSTANTS
 
 create
 	make

@@ -7,7 +7,7 @@ class
 	CNX_PREVIEW_WIDGET
 
 inherit
-	ANY
+	CNX_CONSTANTS
 		redefine
 			default_create
 		end
@@ -20,7 +20,6 @@ feature {NONE} -- Initialization
 			Precursor
 			create widget
 			create actions
-			create colors
 			wipe_out
 		end
 
@@ -175,25 +174,5 @@ feature -- Ops
 				l_this_top := l_this_top + padding_and_border_pixels + l_font.height
 			end
 		end
-
-feature -- Constants
-
-	bottom_margin_height: INTEGER = 35
-	colors: CNX_STOCK_COLORS
-	default_indent: INTEGER
-	double: INTEGER = 2
-	eighty_percent: REAL = 0.80
-	empty_string: STRING = ""
-	first_item: INTEGER = 1
-	half: INTEGER = 2
-	margin: INTEGER = 20
-	mod_two: INTEGER = 2
-	newline: STRING = "%N"
-	nothing: INTEGER = 0
-	one: INTEGER = 1
-	padding_and_border_pixels: INTEGER = 3
-	pipe_char: CHARACTER = '|'
-	tab: STRING = "%T"
-	text_offset: INTEGER = 4
 
 end

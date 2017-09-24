@@ -8,5 +8,10 @@ deferred class
 
 inherit
 	CNX_BOX_WIDGET [EV_VERTICAL_BOX]
+		undefine
+			default_create
+		end
+
+	CNX_CONSTANTS
 
 end
