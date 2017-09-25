@@ -30,7 +30,19 @@ create
 	default_create,
 	make_with_poem
 
-feature -- GUI Bits: Access
+feature -- Setters
+
+	set_stanza (a_stanza: CNX_STANZA)
+		do
+			stanza := a_stanza
+			stanza_type_field.set_text (a_stanza.type)
+			stanza_number_field.set_text (a_stanza.number.out)
+			stanza_text_field.set_text (a_stanza.text)
+		end
+
+feature -- Access
+
+	stanza: detachable CNX_STANZA
 
 feature {NONE} -- GUI Bits
 
