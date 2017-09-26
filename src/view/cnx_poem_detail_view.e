@@ -38,30 +38,31 @@ feature {NONE} -- GUI Bits
 
 	title_label_field: EV_HORIZONTAL_BOX
 	title_label: EV_LABEL
-	title_field: MVC_TEXT_FIELD
+	title_field: EV_TEXT_FIELD
 
 	stanza_list_view: EV_VERTICAL_BOX
 
-	stanza_list: MVC_TREE
+	stanza_list: EV_TREE
 	stanza_list_label: EV_LABEL
 	stanza_detail_view: EV_VERTICAL_BOX
 
 	stanza_type_label_field: EV_HORIZONTAL_BOX
 	stanza_type_label: EV_LABEL
-	stanza_type_field: MVC_TEXT_FIELD
+	stanza_type_field: EV_TEXT_FIELD
 	stanza_number_label_field: EV_HORIZONTAL_BOX
 	stanza_number_label: EV_LABEL
-	stanza_number_field: MVC_TEXT_FIELD
+	stanza_number_field: EV_TEXT_FIELD
 	stanza_text_label_field: EV_VERTICAL_BOX
 	stanza_text_label: EV_LABEL
-	stanza_text_field: MVC_RICH_TEXT
+	stanza_text_field: EV_RICH_TEXT
 
 feature {NONE} -- Initialization
 
 	make_with_poem (a_poem: CNX_POEM)
 		do
 			default_create
-			create detail_item.make_with_model (a_poem.title)
+			poem := a_poem
+			poem_hash := a_poem.title.hash_code
 		end
 
 	default_create
@@ -109,24 +110,24 @@ feature {NONE} -- Initialization
 			-- Extensions
 		widget.extend (title_label_field)
 			title_label_field.extend (title_label)
-			title_label_field.extend (title_field.view)
+			title_label_field.extend (title_field)
 
 		widget.extend (stanza_list_view)
 			stanza_list_view.extend (stanza_list_label)
-			stanza_list_view.extend (stanza_list.view)
+			stanza_list_view.extend (stanza_list)
 			stanza_list_view.extend (stanza_detail_view)
 
 		stanza_detail_view.extend (stanza_type_label_field)
 			stanza_type_label_field.extend (stanza_type_label)
-			stanza_type_label_field.extend (stanza_type_field.view)
+			stanza_type_label_field.extend (stanza_type_field)
 
 		stanza_detail_view.extend (stanza_number_label_field)
 			stanza_number_label_field.extend (stanza_number_label)
-			stanza_number_label_field.extend (stanza_number_field.view)
+			stanza_number_label_field.extend (stanza_number_field)
 
 		stanza_detail_view.extend (stanza_text_label_field)
 			stanza_text_label_field.extend (stanza_text_label)
-			stanza_text_label_field.extend (stanza_text_field.view)
+			stanza_text_label_field.extend (stanza_text_field)
 
 			-- Disables
 		widget.disable_item_expand (title_label_field)
@@ -169,7 +170,16 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	detail_item: detachable MVC_TREE_ITEM
+	poem: detachable CNX_POEM
 			-- The `detail_item' being presented.
+
+	poem_hash: INTEGER
+
+feature -- Setters
+
+	set_poem (a_poem: CNX_POEM)
+		do
+			poem := a_poem
+		end
 
 end

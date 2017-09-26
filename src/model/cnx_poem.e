@@ -81,6 +81,34 @@ feature -- Access
 			create Result.make (5)
 		end
 
+	stanza_hash: HASH_TABLE [CNX_STANZA, INTEGER]
+			-- If `internal_stanza_hash' is still same, otherwise recompute it.
+		do
+			if
+				internal_stanza_hash.count /= stanzas.count or else
+				across stanzas as ic some
+					not across internal_stanza_hash as ic_int some
+							ic_int.item.text.hash_code /= ic.item.text.hash_code
+						end
+				end
+			then
+				create Result.make (stanzas.count)
+				across
+					stanzas as ic
+				loop
+					Result.force (ic.item, ic.item.text.hash_code)
+				end
+				internal_stanza_hash := Result
+			else
+				Result := internal_stanza_hash
+			end
+		end
+
+	internal_stanza_hash: like stanza_hash
+		attribute
+			create Result.make (stanzas.count)
+		end
+
 feature -- Queries
 
 	chorus_count: INTEGER

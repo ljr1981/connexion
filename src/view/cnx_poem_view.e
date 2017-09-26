@@ -27,7 +27,7 @@ feature {NONE} -- GUI Bits
 
 	poem_list_view: EV_VERTICAL_BOX
 	poem_list_label: EV_LABEL
-	poem_list: MVC_TREE
+	poem_list: EV_TREE
 
 	detail_view: CNX_POEM_DETAIL_VIEW
 
@@ -36,6 +36,11 @@ feature {NONE} -- Initialization
 	make_with_poems (a_poems: ARRAY [CNX_POEM])
 		do
 			default_create
+			across
+				a_poems as ic
+			loop
+				poems.force (ic.item, ic.item.title.hash_code)
+			end
 		end
 
 	default_create
@@ -63,7 +68,7 @@ feature {NONE} -- Initialization
 			--		Poem_list
 			widget.extend (poem_list_view)
 				poem_list_view.extend (poem_list_label)
-				poem_list_view.extend (poem_list.view)
+				poem_list_view.extend (poem_list)
 			widget.extend (detail_view.widget)
 
 				-- Disables
@@ -78,5 +83,15 @@ feature {NONE} -- Initialization
 
 				-- Other
 		end
+
+feature -- Access
+
+	poems: HASH_TABLE [CNX_POEM, INTEGER]
+		attribute
+			create Result.make (20)
+		end
+
+	selected_poem_hash: INTEGER
+			-- Hash ID of title of selected poem (if any)
 
 end
