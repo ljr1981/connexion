@@ -8,8 +8,14 @@ class
 
 inherit
 	JSON_SERIALIZABLE
+		export {NONE} all
+		end
 
 	JSON_DESERIALIZABLE
+		export {NONE} all
+		end
+
+	HASHABLE
 
 create
 	make,
@@ -78,6 +84,11 @@ feature -- Access
 	text: STRING_32
 		attribute
 			create Result.make_empty
+		end
+
+	hash_code: INTEGER
+		do
+			Result := text.hash_code
 		end
 
 feature {NONE} -- Implementation

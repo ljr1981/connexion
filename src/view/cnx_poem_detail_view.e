@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			poem := a_poem
-			poem_hash := a_poem.title.hash_code
+			poem_hash := a_poem.hash_code
 		end
 
 	default_create

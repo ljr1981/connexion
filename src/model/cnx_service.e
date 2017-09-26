@@ -8,14 +8,27 @@ class
 
 inherit
 	JSON_SERIALIZABLE
+		export {NONE} all
+		end
 
 	JSON_DESERIALIZABLE
+		export {NONE} all
+		end
+
+	HASHABLE
 
 create
 	default_create,
-	make_from_json
+	make_from_json,
+	make_with_title
 
 feature {NONE} -- Initialization
+
+	make_with_title (a_title: like title; a_date: like date)
+		do
+			title := a_title
+			date := a_date
+		end
 
 	make_from_json (a_json: STRING)
 			-- <Precursor>
@@ -83,6 +96,21 @@ feature -- JSON
 		end
 
 feature -- Access
+
+	title: STRING_32
+		attribute
+			Result := date.out
+		end
+
+	date: DATE
+		attribute
+			create Result.make_now
+		end
+
+	hash_code: INTEGER
+		do
+			Result := date.out.hash_code
+		end
 
 	announcements: ARRAYED_LIST [CNX_POEM]
 		attribute

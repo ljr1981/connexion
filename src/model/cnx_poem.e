@@ -8,8 +8,14 @@ class
 
 inherit
 	JSON_SERIALIZABLE
+		export {NONE} all
+		end
 
 	JSON_DESERIALIZABLE
+		export {NONE} all
+		end
+
+	HASHABLE
 
 create
 	make_with_title,
@@ -75,6 +81,11 @@ feature -- Access
 
 	title: STRING_32
 
+	hash_code: INTEGER
+		do
+			Result := title.hash_code
+		end
+
 	stanzas: ARRAYED_LIST [CNX_STANZA]
 			-- `stanzas' of Current {CNX_POEM}.
 		attribute
@@ -88,7 +99,7 @@ feature -- Access
 				internal_stanza_hash.count /= stanzas.count or else
 				across stanzas as ic some
 					not across internal_stanza_hash as ic_int some
-							ic_int.item.text.hash_code /= ic.item.text.hash_code
+							ic_int.item.hash_code /= ic.item.hash_code
 						end
 				end
 			then
@@ -96,17 +107,12 @@ feature -- Access
 				across
 					stanzas as ic
 				loop
-					Result.force (ic.item, ic.item.text.hash_code)
+					Result.force (ic.item, ic.item.hash_code)
 				end
 				internal_stanza_hash := Result
 			else
 				Result := internal_stanza_hash
 			end
-		end
-
-	internal_stanza_hash: like stanza_hash
-		attribute
-			create Result.make (stanzas.count)
 		end
 
 feature -- Queries
@@ -133,6 +139,11 @@ feature -- Queries
 		end
 
 feature {NONE} -- Implementation
+
+	internal_stanza_hash: like stanza_hash
+		attribute
+			create Result.make (stanzas.count)
+		end
 
 	constants: CNX_CONSTANTS
 		once

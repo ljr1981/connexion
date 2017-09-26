@@ -10,7 +10,8 @@ inherit
 	EV_TITLED_WINDOW
 		redefine
 			create_interface_objects,
-			initialize
+			initialize,
+			is_in_default_state
 		end
 
 create
@@ -35,6 +36,15 @@ feature {NONE} -- GUI bits
 			notes_view: CNX_POEM_VIEW
 
 		list_box: CNX_PLAIN_VERTICAL_BOX_WIDGET -- ::=
+
+			service_title_label: EV_LABEL
+			service_date_label: EV_LABEL
+
+			service_title_field: EV_TEXT_FIELD attribute create Result.make_with_text ("Untitled") end
+			service_title_mask: STRING_VALUE_INPUT_MASK attribute create Result.make_repeating ("K") end
+
+			service_date_field: EV_TEXT_FIELD attribute create Result end
+			service_date_mask: DATE_TIME_INPUT_MASK attribute create Result.make_month_day_year end
 
 			announcement_list,
 			song_list,
@@ -75,6 +85,8 @@ feature {NONE} -- Initialization
 					create notes_view
 
 				create list_box
+					create service_title_label.make_with_text ("Title: ")
+					create service_date_label.make_with_text ("Date: ")
 					create announcement_list.make (constants.announcements_label_text)
 					create song_list.make (constants.songs_list_label_text)
 					create notes_list.make (constants.notes_list_label_text)
@@ -90,6 +102,10 @@ feature {NONE} -- Initialization
 
 	initialize
 			-- <Precursor>
+		local
+			l_menu_bar: EV_MENU_BAR
+			l_menu: EV_MENU
+			l_menu_item: EV_MENU_ITEM
 		do
 			display_window.set_size (constants.default_window_width, constants.default_window_height)
 			close_request_actions.extend (agent display_window.destroy)
@@ -99,8 +115,27 @@ feature {NONE} -- Initialization
 				-- Stuff inside main_box
 
 				-- Extensions
+			create l_menu_bar
+			set_menu_bar (l_menu_bar)
+			create l_menu.make_with_text ("File")
+			l_menu_bar.extend (l_menu)
+			create l_menu_item.make_with_text_and_action ("New Service", agent on_new_service)
+			l_menu.extend (l_menu_item)
+
 			main_box.widget.extend (notebook)
 			service_tab.widget.extend (list_box.widget)
+				list_box.widget.extend (service_title_label)
+				list_box.widget.extend (service_title_field)
+					service_title_mask.initialize_masking_widget_events (service_title_field)
+					service_title_field.set_text (service_title_mask.apply (service_title).masked_string)
+					service_title_field.focus_in_actions.extend (agent service_title_field.select_all)
+					service_title_field.focus_out_actions.extend (agent on_service_title_set)
+				list_box.widget.extend (service_date_label)
+				list_box.widget.extend (service_date_field)
+					service_date_mask.initialize_masking_widget_events (service_date_field)
+					service_date_field.set_text (service_date_mask.apply (service_date).masked_string)
+					service_date_field.focus_in_actions.extend (agent service_date_field.select_all)
+					service_date_field.focus_out_actions.extend (agent on_service_date_set)
 				list_box.widget.extend (announcement_list.widget)
 				list_box.widget.extend (song_list.widget)
 				list_box.widget.extend (notes_list.widget)
@@ -118,8 +153,16 @@ feature {NONE} -- Initialization
 				display_box.widget.extend (create {EV_CELL})
 
 				-- Disables
+			list_box.widget.disable_item_expand (service_title_label)
+			list_box.widget.disable_item_expand (service_title_field)
+			service_title_field.disable_edit
+			list_box.widget.disable_item_expand (service_date_label)
+			list_box.widget.disable_item_expand (service_date_field)
+			service_date_field.disable_edit
 
 				-- Settings
+			service_title_label.align_text_left
+			service_date_label.align_text_left
 			display_box.widget.set_minimum_width (constants.default_window_width_minimum)
 			display_large.enable_blanking
 			display_large.set_display_target (display_window)
@@ -133,8 +176,13 @@ feature {NONE} -- Initialization
 
 			Precursor
 
-			load_songs
-			load_notes
+--			load_songs
+--			load_notes
+		end
+
+	is_in_default_state: BOOLEAN
+		do
+			Result := True
 		end
 
 feature -- Loading
@@ -179,6 +227,58 @@ feature -- Loading
 						l_tree_stanza.pointer_double_press_actions.extend (agent on_stanza_double_click (?, ?, ?, ?, ?, ?, ?, ?, ic.item, a_item))
 					end
 		end
+
+feature -- Events: Menu
+
+	on_new_service
+		local
+			l_dialog: CNX_SERVICE_EDIT_DIALOG
+		do
+			create l_dialog.make_with_data (Void)
+			l_dialog.show_modal_to_window (Current)
+			if l_dialog.is_ok then
+				create current_service.make_with_title (l_dialog.service_title, l_dialog.service_date.date)
+				if attached current_service as al_service then
+						-- Title & Date
+					service_title := al_service.title
+					service_title_field.set_text (al_service.title)
+					create service_date.make_by_date (al_service.date)
+					service_date_field.set_text (al_service.date.out)
+						-- Announcements
+					announcement_list.list.wipe_out
+						-- Songs
+					songs.wipe_out
+					song_list.list.wipe_out
+						-- Notes
+					notes.wipe_out
+					notes_list.list.wipe_out
+				end
+			end
+		end
+
+	current_service: detachable CNX_SERVICE
+
+	service_title: STRING_32
+		attribute
+			Result := {STRING_32} "Untitled"
+		end
+
+	on_service_title_set
+		do
+
+		end
+
+	service_date: DATE_TIME
+		attribute
+			create Result.make_now
+		end
+
+	on_service_date_set
+		do
+
+		end
+
+feature -- Events
 
 	on_stanza_key_press (a_key: EV_KEY; a_stanza: CNX_STANZA; a_poem: CNX_POEM)
 		do

@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			across
 				a_poems as ic
 			loop
-				poems.force (ic.item, ic.item.title.hash_code)
+				poems.force (ic.item, ic.item.hash_code)
 			end
 		end
 
