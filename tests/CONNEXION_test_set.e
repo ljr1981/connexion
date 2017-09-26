@@ -46,12 +46,13 @@ feature -- Test routines
 		local
 			l_mvc: MVC_TEXT_FIELD
 			l_model: STRING_32
+			l_grid: EV_GRID
 		do
 				-- Without model
 			create l_mvc
 			assert_strings_equal ("empty", "", l_mvc.view.text)
 			assert_32 ("is_empty", l_mvc.view.text.is_empty)
-			
+
 				-- With model
 			create l_model.make_from_string ("blah")
 			create l_mvc.make_with_model (l_model)

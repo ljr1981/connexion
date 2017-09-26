@@ -1,13 +1,13 @@
 note
 	description: "[
-		MVC facility for an EV_TEXT_FIELD
+		MVC facility for an EV_CHECK_BUTTON
 		]"
 
 class
-	MVC_TEXT_FIELD
+	MVC_CHECK_BUTTON
 
 inherit
-	MVC_HASHABLE_PRIMITIVE [STRING_32, EV_TEXT_FIELD]
+	MVC_HASHABLE_PRIMITIVE [BOOLEAN, EV_CHECK_BUTTON]
 
 create
 	make_with_model,
@@ -18,15 +18,17 @@ feature {NONE} -- Initialization
 	initialize
 			-- <Precursor>
 		do
-			view.change_actions.extend (agent view_to_model)
-			view.set_text (attached_model)
+			view.select_actions.extend (agent view_to_model)
+			if not attached_model = view.is_selected then
+				view.toggle
+			end
 		end
 
 feature -- Ops
 
 	remove_model
 		do
-			model := Void
+--			model := Void
 			model_to_view_agent := Void
 			view_to_model_agent := Void
 		end
@@ -45,17 +47,15 @@ feature -- MVC: Routines
 	model_to_view
 			-- `model_to_view' controller routine.
 		do
-			view.set_text (attached_model)
+			if not attached_model = view.is_selected then
+				view.toggle
+			end
 		end
 
 	view_to_model
 			-- `view_to_model' controller routine.
 		do
-			if view.text.is_empty then
-				attached_model.wipe_out
-			else
-				attached_model.set (view.text, 1, view.text.count)
-			end
+			model.set_item (view.is_selected)
 		end
 
 end

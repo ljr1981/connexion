@@ -1,13 +1,8 @@
-note
-	description: "[
-		MVC facility for an EV_TEXT_FIELD
-		]"
-
 class
-	MVC_TEXT_FIELD
+	MVC_TREE_ITEM
 
 inherit
-	MVC_HASHABLE_PRIMITIVE [STRING_32, EV_TEXT_FIELD]
+	MVC_HASHABLE_ITEM [STRING_32, EV_TREE_ITEM]
 
 create
 	make_with_model,
@@ -18,7 +13,7 @@ feature {NONE} -- Initialization
 	initialize
 			-- <Precursor>
 		do
-			view.change_actions.extend (agent view_to_model)
+			view.select_actions.extend (agent view_to_model)
 			view.set_text (attached_model)
 		end
 

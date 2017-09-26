@@ -27,7 +27,7 @@ feature {NONE} -- GUI Bits
 
 	poem_list_view: EV_VERTICAL_BOX
 	poem_list_label: EV_LABEL
-	poem_list: EV_TREE
+	poem_list: MVC_TREE
 
 	detail_view: CNX_POEM_DETAIL_VIEW
 
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 			--		Poem_list
 			widget.extend (poem_list_view)
 				poem_list_view.extend (poem_list_label)
-				poem_list_view.extend (poem_list)
+				poem_list_view.extend (poem_list.view)
 			widget.extend (detail_view.widget)
 
 				-- Disables
@@ -75,7 +75,7 @@ feature {NONE} -- Initialization
 				-- Padding & Borders
 			poem_list_view.set_padding (3)
 			poem_list_view.set_border_width (3)
-			
+
 				-- Other
 		end
 

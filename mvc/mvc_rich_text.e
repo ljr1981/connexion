@@ -1,13 +1,13 @@
 note
 	description: "[
-		MVC facility for an EV_TEXT_FIELD
+		MVC facility for an EV_RICH_TEXT
 		]"
 
 class
-	MVC_TEXT_FIELD
+	MVC_RICH_TEXT
 
 inherit
-	MVC_HASHABLE_PRIMITIVE [STRING_32, EV_TEXT_FIELD]
+	MVC_HASHABLE_PRIMITIVE [STRING_32, EV_RICH_TEXT]
 
 create
 	make_with_model,
